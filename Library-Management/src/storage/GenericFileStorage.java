@@ -29,4 +29,5 @@ public class GenericFileStorage<T> implements IDataStorage<T> {
             System.err.println("Error writing to file: " + path);
         }
     }
+
 }

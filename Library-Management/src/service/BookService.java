@@ -45,6 +45,27 @@ public class BookService implements IBookService {
     }
 
     @Override
+    public List<Book> searchByAuthor(String author) {
+        return books.stream()
+                .filter(b -> b.getAuthor().toLowerCase().contains(author.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Book> searchByCategory(String category) {
+        return books.stream()
+                .filter(b -> b.getCategory().toLowerCase().contains(category.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Book> searchByLanguage(String language) {
+        return books.stream()
+                .filter(b -> b.getLanguage().toLowerCase().contains(language.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<Book> getAllBooks() {
         return new ArrayList<>(books);
     }

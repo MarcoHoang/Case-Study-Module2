@@ -24,4 +24,13 @@ public class Reservation implements Serializable {
 
     public LocalDate getReservationDate() { return reservationDate; }
     public void setReservationDate(LocalDate reservationDate) { this.reservationDate = reservationDate; }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "borrowerId='" + borrowerId + '\'' +
+                ", bookId='" + bookId + '\'' +
+                ", reservationDate=" + reservationDate +
+                '}';
+    }
 }

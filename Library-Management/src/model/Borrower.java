@@ -1,25 +1,30 @@
 package model;
 
 public class Borrower extends User {
-    private String phone;
-    private String email;
+
     private String borrowerType;
 
-    public Borrower() {}
-
-    public Borrower(String id, String username, String password, String phone, String borrowerType) {
-        super(id, username, password);
-        this.phone = phone;
-        this.email = email;
+    public Borrower(String id, String username, String password, String email,
+                    String phone, int age, String gender, String borrowerType) {
+        super(id, username, password, email, phone, age, gender);
         this.borrowerType = borrowerType;
     }
 
-    public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
+    public String getBorrowerType() {
+        return borrowerType;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public void setBorrowerType(String borrowerType) {
+        this.borrowerType = borrowerType;
+    }
 
-    public String getBorrowerType() { return borrowerType; }
-    public void setBorrowerType(String borrowerType) { this.borrowerType = borrowerType; }
+    @Override
+    public String getRole() {
+        return "Borrower";
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", borrowerType='" + borrowerType + '\'' + '}';
+    }
 }
