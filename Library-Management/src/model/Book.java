@@ -1,23 +1,24 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Book {
-    private String id;                // Mã sách
-    private String title;             // Tên sách
-    private String author;            // Tác giả
-    private String publisher;         // Nhà xuất bản
-    private LocalDate publishDate;    // Ngày xuất bản
-    private String category;          // Thể loại (khoa học, văn học, truyện tranh...)
-    private String language;          // Ngôn ngữ
-    private int totalCopies;          // Tổng số bản
-    private int availableCopies;      // Số bản đang còn
-    private String description;       // Mô tả ngắn
+public class Book implements Serializable {
+    private String id;
+    private String title;
+    private Author author;
+    private String publisher;
+    private LocalDate publishDate;
+    private Category category;
+    private String language;
+    private int totalCopies;
+    private int availableCopies;
+    private String description;
 
     public Book() {}
 
-    public Book(String id, String title, String author, String publisher,
-                LocalDate publishDate, String category, String language,
+    public Book(String id, String title, Author author, String publisher,
+                LocalDate publishDate, Category category, String language,
                 int totalCopies, int availableCopies, String description) {
         this.id = id;
         this.title = title;
@@ -47,11 +48,11 @@ public class Book {
         this.title = title;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 
@@ -71,11 +72,11 @@ public class Book {
         this.publishDate = publishDate;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 

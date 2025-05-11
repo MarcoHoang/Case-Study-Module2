@@ -18,6 +18,11 @@ public class BookService implements IBookService {
 
     @Override
     public void addBook(Book book) {
+        if (findById(book.getId()) != null) {
+            System.out.println("Lỗi: ID sách đã tồn tại. Không thể thêm sách.");
+            return;
+        }
+
         books.add(book);
         save();
     }
@@ -27,6 +32,17 @@ public class BookService implements IBookService {
         boolean removed = books.removeIf(b -> b.getId().equals(id));
         if (removed) save();
         return removed;
+    }
+
+    @Override
+    public void updateBook(Book updatedBook) {
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).getId().equals(updatedBook.getId())) {
+                books.set(i, updatedBook);
+                save();
+                break;
+            }
+        }
     }
 
     @Override
@@ -47,14 +63,14 @@ public class BookService implements IBookService {
     @Override
     public List<Book> searchByAuthor(String author) {
         return books.stream()
-                .filter(b -> b.getAuthor().toLowerCase().contains(author.toLowerCase()))
+                .filter(b -> b.getAuthor().getName().toLowerCase().contains(author.toLowerCase()))
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<Book> searchByCategory(String category) {
         return books.stream()
-                .filter(b -> b.getCategory().toLowerCase().contains(category.toLowerCase()))
+                .filter(b -> b.getCategory().getName().toLowerCase().contains(category.toLowerCase()))
                 .collect(Collectors.toList());
     }
 
@@ -68,17 +84,6 @@ public class BookService implements IBookService {
     @Override
     public List<Book> getAllBooks() {
         return new ArrayList<>(books);
-    }
-
-    @Override
-    public void updateBook(Book updatedBook) {
-        for (int i = 0; i < books.size(); i++) {
-            if (books.get(i).getId().equals(updatedBook.getId())) {
-                books.set(i, updatedBook);
-                save();
-                break;
-            }
-        }
     }
 
     private void save() {

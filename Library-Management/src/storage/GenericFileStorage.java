@@ -23,11 +23,19 @@ public class GenericFileStorage<T> implements IDataStorage<T> {
 
     @Override
     public void writeToFile(String path, List<T> data) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path))) {
-            oos.writeObject(data);
+        File file = new File(path);
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+                oos.writeObject(data);
+            }
         } catch (IOException e) {
             System.err.println("Error writing to file: " + path);
+            e.printStackTrace();
         }
     }
+
 
 }

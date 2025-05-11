@@ -9,11 +9,10 @@ public abstract class User implements Serializable {
     private String email;
     private String phone;
     private int age;
-    private String gender;
-    private String role;
+    private Gender gender;
 
     public User(String id, String userName, String password, String email,
-                String phone, int age, String gender) {
+                String phone, int age, Gender gender) {
         this.id = id;
         this.userName = userName;
         this.password = password;
@@ -47,12 +46,8 @@ public abstract class User implements Serializable {
         return age;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
-    }
-
-    public String getRole() {
-        return role;
     }
 
     public void setId(String id) {
@@ -79,12 +74,8 @@ public abstract class User implements Serializable {
         this.age = age;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     @Override
@@ -97,7 +88,6 @@ public abstract class User implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", age=" + age +
                 ", gender='" + gender + '\'' +
-                ", role='" + role + '\'' +
                 '}';
     }
 }

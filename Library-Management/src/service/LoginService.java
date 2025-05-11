@@ -1,7 +1,8 @@
 package service;
 
-import model.Librarian;
 import model.User;
+import model.Librarian;
+import util.PasswordUtil;
 
 public class LoginService implements ILoginService {
     private final IUserService userService;
@@ -12,7 +13,11 @@ public class LoginService implements ILoginService {
 
     @Override
     public User authenticate(String username, String password) {
-        return userService.login(username, password);
+        User user = userService.findByUsername(username);
+        if (user != null && PasswordUtil.checkPassword(password, user.getPassword())) {
+            return user;
+        }
+        return null;
     }
 
     @Override

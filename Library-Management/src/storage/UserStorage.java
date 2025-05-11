@@ -19,7 +19,13 @@ public class UserStorage implements IDataStorage<User> {
             users = (List<User>) ois.readObject();
         } catch (FileNotFoundException e) {
             System.out.println("File not found. Creating new file...");
+            try {
+                new File(path).createNewFile();  // Tạo tệp mới nếu không tồn tại
+            } catch (IOException ioException) {
+                System.out.println("Error creating new file: " + ioException.getMessage());
+            }
         } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error reading from file: " + e.getMessage());
             e.printStackTrace();
         }
         return users;
@@ -29,44 +35,12 @@ public class UserStorage implements IDataStorage<User> {
     public void writeToFile(String path, List<User> data) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path))) {
             oos.writeObject(data);
+            System.out.println("Data saved successfully.");
         } catch (IOException e) {
+            System.out.println("Error writing to file: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    public void addUser(String path, User user) {
-        List<User> users = readFromFile(path);
-        users.add(user);
-        writeToFile(path, users);
-    }
 
-    public void removeUser(String path, String userId) {
-        List<User> users = readFromFile(path);
-        users.removeIf(user -> user.getId().equals(userId));
-        writeToFile(path, users);
-    }
-
-    public User findUserById(String path, String userId) {
-        List<User> users = readFromFile(path);
-        for (User user : users) {
-            if (user.getId().equals(userId)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    public User findUserByUsername(String path, String username) {
-        List<User> users = readFromFile(path);
-        for (User user : users) {
-            if (user.getUserName().equals(username)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    public List<User> getAllUsers(String path) {
-        return readFromFile(path);
-    }
 }

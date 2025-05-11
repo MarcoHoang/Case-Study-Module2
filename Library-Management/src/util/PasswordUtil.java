@@ -1,7 +1,6 @@
 package util;
 
 import org.mindrot.jbcrypt.BCrypt;
-import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +17,9 @@ public class PasswordUtil {
     public static void validatePassword(String password) {
         List<String> errors = new ArrayList<>();
 
+        if (password == null || password.trim().isEmpty()) {
+            throw new IllegalArgumentException("Mật khẩu không được để trống.");
+        }
         if (password.length() < 8) {
             errors.add(" - Mật khẩu phải có ít nhất 8 ký tự");
         }
@@ -40,36 +42,5 @@ public class PasswordUtil {
         }
     }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        String password;
 
-        while (true) {
-            System.out.println("Nhập mật khẩu của bạn:");
-            password = scanner.nextLine();
-
-            try {
-                validatePassword(password);
-                break;
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-                System.out.println("Vui lòng nhập lại.\n");
-            }
-        }
-
-        String hashed = hashPassword(password);
-        System.out.println(" Mật khẩu đã được mã hóa: " + hashed);
-
-        while (true) {
-            System.out.println("Mời bạn xác nhận mật khẩu:");
-            String plainTextPassword = scanner.nextLine();
-            if (checkPassword(plainTextPassword, hashed)) {
-                System.out.println("Mật khẩu chính xác");
-                break;
-            } else {
-                System.out.println(" Mật khẩu không chính xác. Thử lại.");
-            }
-        }
-        scanner.close();
-    }
 }

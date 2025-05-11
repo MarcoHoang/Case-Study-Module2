@@ -1,11 +1,13 @@
 package model;
 
-public class Borrower extends User {
+import java.io.Serializable;
+
+public class Borrower extends User implements Serializable {
 
     private String borrowerType;
 
     public Borrower(String id, String username, String password, String email,
-                    String phone, int age, String gender, String borrowerType) {
+                    String phone, int age, Gender gender, String borrowerType) {
         super(id, username, password, email, phone, age, gender);
         this.borrowerType = borrowerType;
     }
@@ -16,11 +18,6 @@ public class Borrower extends User {
 
     public void setBorrowerType(String borrowerType) {
         this.borrowerType = borrowerType;
-    }
-
-    @Override
-    public String getRole() {
-        return "Borrower";
     }
 
     @Override
