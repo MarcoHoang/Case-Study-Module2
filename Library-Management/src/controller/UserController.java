@@ -39,12 +39,15 @@ public class UserController {
     public boolean verifyOldPassword(String userId, String oldPassword) {
         User user = userService.getUserById(userId);
         if (user != null) {
-            boolean match = PasswordUtil.checkPassword(oldPassword, user.getPassword());
-            return match;
+            return PasswordUtil.checkPassword(oldPassword, user.getPassword());
         } else {
             System.out.println("User not found with ID: " + userId);
             return false;
         }
+    }
+
+    public User getUserById(String userId) {
+        return userService.getUserById(userId);
     }
 
     public User findByUsername(String username) {

@@ -28,6 +28,7 @@ public class BorrowService implements IBorrowService {
         for (BorrowRecord record : records) {
             if (record.getBorrowId().equals(borrowId) && !record.isReturned()) {
                 record.setReturned(true);
+                record.setReturnDate(java.time.LocalDate.now());
                 save();
                 return true;
             }

@@ -1,10 +1,14 @@
 package service;
 
+import model.Author;
 import model.Book;
+import model.Category;
 import storage.BookStorage;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class BookService implements IBookService {
@@ -35,13 +39,53 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public void updateBook(Book updatedBook) {
-        for (int i = 0; i < books.size(); i++) {
-            if (books.get(i).getId().equals(updatedBook.getId())) {
-                books.set(i, updatedBook);
-                save();
-                break;
+    public void updateBook(String bookId, int updateChoice, String newValue) {
+        Scanner scanner = new Scanner(System.in);
+        Book book = findById(bookId);
+        if (book != null) {
+            switch (updateChoice) {
+                case 1:
+                    book.setTitle(newValue);
+                    break;
+                case 2:
+                    System.out.print("Nhập tên tác giả mới: ");
+                    System.out.print("Nhập quốc tịch tác giả mới: ");
+                    String authorNationality = scanner.nextLine();
+                    Author newAuthor = new Author(newValue, authorNationality);
+                    book.setAuthor(newAuthor);
+                    break;
+                case 3:
+                    System.out.print("Nhập tên thể loại mới: ");
+                    System.out.print("Nhập mô tả thể loại mới: ");
+                    String categoryDescription = scanner.nextLine();
+                    System.out.print("Nhập độ tuổi tối thiểu cho thể loại: ");
+                    int minAge = scanner.nextInt();
+                    Category newCategory = new Category(newValue, categoryDescription, minAge);
+                    book.setCategory(newCategory);
+                    break;
+                case 4:
+                    book.setLanguage(newValue);
+                    break;
+                case 5:
+                    try {
+                        System.out.print("Nhập ngày xuất bản (yyyy-MM-dd): ");
+                        LocalDate publishDate = LocalDate.parse(newValue);
+                        book.setPublishDate(publishDate);
+                    } catch (Exception e) {
+                        System.out.println("Lỗi: Định dạng ngày tháng không hợp lệ.");
+                    }
+                    break;
+                case 6:
+                    book.setDescription(newValue);
+                    break;
+                default:
+                    System.out.println("Lựa chọn không hợp lệ!");
+                    return;
             }
+            save();
+            System.out.println("Cập nhật sách thành công!");
+        } else {
+            System.out.println("Không tìm thấy sách với ID: " + bookId);
         }
     }
 

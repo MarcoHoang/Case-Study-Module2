@@ -1,12 +1,9 @@
 package controller;
 
-import model.Gender;
-import model.User;
-import model.Librarian;
-import model.Borrower;
+import model.*;
 import service.ILoginService;
+import util.AccountHelper;
 import util.InputHelper;
-import util.PasswordUtil;
 
 public class LoginController {
     private final ILoginService loginService;
@@ -24,8 +21,10 @@ public class LoginController {
 
         User user = loginService.authenticate(username, password);
         if (user != null) {
-            if (loginService.isLibrarian(user)) {
-                System.out.println("Đăng nhập thành công! Bạn là Thủ thư (Admin).");
+            if (user instanceof Admin) {
+                System.out.println("Đăng nhập thành công! Bạn là Admin.");
+            } else if (loginService.isLibrarian(user)) {
+                System.out.println("Đăng nhập thành công! Bạn là Thủ thư.");
             } else {
                 System.out.println("Đăng nhập thành công! Bạn là Người dùng.");
             }
@@ -34,49 +33,25 @@ public class LoginController {
         }
         return user;
     }
-
     public void register() {
         System.out.println("=== ĐĂNG KÝ NGƯỜI DÙNG ===");
+        AccountHelper.AccountInfo accountInfo = AccountHelper.getAccountInfo("người dùng");
 
-        String id = InputHelper.inputNonEmptyString("ID: ");
-
-        String username;
+        String username = accountInfo.username;
         while (true) {
-            username = InputHelper.inputNonEmptyString("Tên đăng nhập: ");
             if (userController.findByUsername(username) != null) {
                 System.out.println("Lỗi: Tên đăng nhập đã tồn tại. Vui lòng chọn tên khác.");
+                accountInfo.username = InputHelper.inputNonEmptyString("Tên đăng nhập: ");
+                username = accountInfo.username;
             } else {
                 break;
             }
         }
 
-        String password;
-        while (true) {
-            password = InputHelper.inputNonEmptyString("Mật khẩu: ");
-            try {
-                PasswordUtil.validatePassword(password);
-                break;
-            } catch (IllegalArgumentException e) {
-                System.out.println("Lỗi: " + e.getMessage());
-            }
-        }
-        String hashedPassword = PasswordUtil.hashPassword(password);
-
-        String email = InputHelper.inputEmail("Email: ");
-        String phone = InputHelper.inputPhone("Số điện thoại: ");
-        int age = InputHelper.inputIntInRange("Tuổi: ", 1, 150);
-        Gender gender = InputHelper.inputGender("Giới tính (Nam/Nữ/Khác): ");
-        int role = InputHelper.inputIntInRange("Vai trò (1 - Thủ thư, 2 - Bạn đọc): ", 1, 2);
-
-        User newUser;
-        if (role == 1) {
-            newUser = new Librarian(id, username, hashedPassword, email, phone, age, gender);
-        } else {
-            String borrowerType = InputHelper.inputNonEmptyString("Loại bạn đọc (ví dụ: sinh viên, giảng viên...): ");
-            newUser = new Borrower(id, username, hashedPassword, email, phone, age, gender, borrowerType);
-        }
+        String borrowerType = InputHelper.inputNonEmptyString("Loại bạn đọc (ví dụ: sinh viên, giảng viên...): ");
+        Borrower newUser = new Borrower(accountInfo.id, accountInfo.username, accountInfo.hashedPassword, accountInfo.email, accountInfo.phone, accountInfo.age, accountInfo.gender, borrowerType);
 
         userController.register(newUser);
-        System.out.println("Đăng ký thành công!");
+        System.out.println("Đăng ký thành công! Bạn đã trở thành Người dùng.");
     }
 }

@@ -12,8 +12,6 @@ public class BorrowRecord implements Serializable {
     private LocalDate returnDate;
     private boolean returned;
 
-    public BorrowRecord() {}
-
     public BorrowRecord(String borrowId, String borrowerId, String bookId,
                         LocalDate borrowDate, LocalDate dueDate, boolean returned) {
         this.borrowId = borrowId;
@@ -83,13 +81,21 @@ public class BorrowRecord implements Serializable {
 
     @Override
     public String toString() {
-        return "BorrowRecord{" +
-                "borrowId='" + borrowId + '\'' +
-                ", borrowerId='" + borrowerId + '\'' +
-                ", bookId='" + bookId + '\'' +
-                ", borrowDate=" + borrowDate +
-                ", dueDate=" + dueDate +
-                ", returnDate=" + returnDate +
-                '}';
+        return String.format(
+                        "\n" +
+                        "╔══════════════════════════════════════╗\n" +
+                        "║ Borrow ID : %-25s ║\n" +
+                        "║ Borrower ID : %-25s ║\n" +
+                        "║ Book ID    : %-25s ║\n" +
+                        "║ Borrow Date: %-25s ║\n" +
+                        "║ Due Date   : %-25s ║\n" +
+                        "║ Return Date: %-25s ║\n" +
+                        "╚══════════════════════════════════════╝\n",
+                borrowId, borrowerId, bookId,
+                borrowDate != null ? borrowDate.toString() : "Chưa mượn",
+                dueDate != null ? dueDate.toString() : "Chưa có hạn",
+                returnDate != null ? returnDate.toString() : "Chưa trả"
+        );
     }
+
 }

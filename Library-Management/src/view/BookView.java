@@ -22,15 +22,37 @@ public class BookView {
 
     public static void updateBook(BookController controller) {
         String bookId = InputHelper.inputString("ID sách cần cập nhật: ");
+
         Book existing = controller.findBookById(bookId);
         if (existing == null) {
             System.out.println("Không tìm thấy sách.");
             return;
         }
-        Book book = inputBookData(bookId);
-        controller.updateBook(book);
+
+        System.out.println("Thông tin sách hiện tại: ");
+        System.out.println(existing);
+
+        int updateChoice = -1;
+        while (updateChoice < 1 || updateChoice > 6) {
+            System.out.println("Chọn trường cần cập nhật:");
+            System.out.println("1. Tiêu đề sách");
+            System.out.println("2. Tên tác giả (nhập dạng: Tên,Quốc tịch)");
+            System.out.println("3. Thể loại sách (nhập dạng: Tên,Mô tả,Độ tuổi tối thiểu)");
+            System.out.println("4. Ngôn ngữ sách");
+            System.out.println("5. Ngày xuất bản (yyyy-MM-dd)");
+            System.out.println("6. Mô tả sách");
+
+            updateChoice = InputHelper.inputInt("Lựa chọn (1-6): ");
+            if (updateChoice < 1 || updateChoice > 6) {
+                System.out.println("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
+            }
+        }
+
+        String newValue = InputHelper.inputString("Nhập giá trị mới: ");
+        controller.updateBook(bookId, updateChoice, newValue);
         System.out.println("Cập nhật thành công.");
     }
+
 
     public static void removeBook(BookController controller) {
         String bookId = InputHelper.inputString("ID sách cần xóa: ");

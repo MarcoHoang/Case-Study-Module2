@@ -22,6 +22,11 @@ public class Borrower extends User implements Serializable {
 
     @Override
     public String toString() {
-        return super.toString() + ", borrowerType='" + borrowerType + '\'' + '}';
+        String parentInfo = super.toString();
+
+        int lastLineIndex = parentInfo.lastIndexOf("╚");
+        String borrowerLine = String.format("║ Borrower Type : %-20s ║\n", borrowerType);
+
+        return parentInfo.substring(0, lastLineIndex) + borrowerLine + parentInfo.substring(lastLineIndex);
     }
 }

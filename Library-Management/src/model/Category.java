@@ -7,8 +7,6 @@ public class Category implements Serializable {
     private String description;
     private int minAge;
 
-    public Category() {}
-
     public Category(String name, String description, int minAge) {
         this.name = name;
         this.description = description;
@@ -26,6 +24,15 @@ public class Category implements Serializable {
 
     @Override
     public String toString() {
-        return name + " (" + minAge + ")";
+        return String.format(
+                        "\n" +
+                        "╔════════════════════════════════════════════╗\n" +
+                        "║ Category Name : %-25s ║\n" +
+                        "║ Description   : %-25s ║\n" +
+                        "║ Min Age       : %-25d ║\n" +
+                        "╚════════════════════════════════════════════╝\n",
+                name, description, minAge
+        );
     }
+
 }

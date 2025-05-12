@@ -6,8 +6,6 @@ public class Author implements Serializable {
     private String name;
     private String nationality;
 
-    public Author() {}
-
     public Author(String name, String nationality) {
         this.name = name;
         this.nationality = nationality;
@@ -21,6 +19,13 @@ public class Author implements Serializable {
 
     @Override
     public String toString() {
-        return name + " (" + nationality + ")";
+        return String.format(
+                        "\n" +
+                        "╔═══════════════════════════════════════════╗\n" +
+                        "║ Author Name    : %-25s ║\n" +
+                        "║ Nationality    : %-25s ║\n" +
+                        "╚═══════════════════════════════════════════╝\n",
+                name, nationality
+        );
     }
 }

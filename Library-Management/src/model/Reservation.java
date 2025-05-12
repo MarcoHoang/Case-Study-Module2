@@ -8,8 +8,6 @@ public class Reservation implements Serializable {
     private String bookId;
     private LocalDate reservationDate;
 
-    public Reservation() {}
-
     public Reservation(String borrowerId, String bookId, LocalDate reservationDate) {
         this.borrowerId = borrowerId;
         this.bookId = bookId;
@@ -27,10 +25,15 @@ public class Reservation implements Serializable {
 
     @Override
     public String toString() {
-        return "Reservation{" +
-                "borrowerId='" + borrowerId + '\'' +
-                ", bookId='" + bookId + '\'' +
-                ", reservationDate=" + reservationDate +
-                '}';
+        return String.format(
+                        "\n" +
+                        "╔══════════════════════════════════════╗\n" +
+                        "║ Borrower ID       : %-25s ║\n" +
+                        "║ Book ID           : %-25s ║\n" +
+                        "║ Reservation Date  : %-25s ║\n" +
+                        "╚══════════════════════════════════════╝\n",
+                borrowerId, bookId, reservationDate
+        );
     }
+
 }

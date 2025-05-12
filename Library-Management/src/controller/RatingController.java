@@ -33,13 +33,11 @@ public class RatingController {
 
     public void viewRatings() {
         System.out.println("=== DANH SÁCH ĐÁNH GIÁ ===");
-        ratingService.getAllRatings().forEach(rating -> {
-            System.out.println(
-                    "Sách ID: " + rating.getBookId() +
-                            ", Người dùng ID: " + rating.getUserId() +
-                            ", Số sao: " + rating.getStars() +
-                            ", Nhận xét: " + rating.getComment()
-            );
-        });
+        ratingService.getAllRatings().forEach(rating -> System.out.println(
+                "Sách ID: " + rating.getBookId() +
+                        ", Người dùng ID: " + rating.getUserId() +
+                        ", Số sao: " + rating.getStars() +
+                        ", Nhận xét: " + rating.getComment()
+        ));
     }
 }

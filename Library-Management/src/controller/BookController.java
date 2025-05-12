@@ -41,7 +41,7 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
-    public void updateBook(Book updatedBook) {
-        bookService.updateBook(updatedBook);
+    public void updateBook(String bookId, int updateChoice, String newValue) {
+        bookService.updateBook(bookId, updateChoice, newValue);
     }
 }

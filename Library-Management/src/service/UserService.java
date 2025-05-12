@@ -1,5 +1,7 @@
 package service;
 
+import model.Admin;
+import model.Gender;
 import model.User;
 import storage.GenericFileStorage;
 import config.AppConfig;
@@ -17,6 +19,7 @@ public class UserService implements IUserService {
         if (users == null) {
             users = new ArrayList<>();
         }
+        createAdminAccount();
     }
 
     public static UserService getInstance() {
@@ -27,17 +30,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User login(String username, String password) {
-        User user = findByUsername(username);
-        if (user != null && PasswordUtil.checkPassword(password, user.getPassword())) {
-            return user;
-        }
-        return null;
-    }
-
-    @Override
     public void register(User user) {
-        if (isUsernameTaken(user.getUserName())) {
+        if (findByUsername(user.getUserName()) != null && getUserById(user.getId()) != null) {
             throw new IllegalArgumentException("Tên đăng nhập đã tồn tại. Vui lòng chọn tên khác.");
         }
         users.add(user);
@@ -46,9 +40,27 @@ public class UserService implements IUserService {
 
     @Override
     public boolean deleteUser(String userId) {
-        boolean removed = users.removeIf(u -> u.getId().equals(userId));
-        if (removed) save();
+        User user = getUserById(userId);
+        if (user == null) {
+            return false;
+        }
+
+        boolean removed = users.remove(user);
+        if (removed) {
+            save();
+        }
         return removed;
+    }
+
+    private void createAdminAccount() {
+        boolean adminExists = users.stream().anyMatch(u -> u.getUserName().equals("admin"));
+        if (!adminExists) {
+            Admin admin = new Admin("ad", "admin", PasswordUtil.hashPassword("Admin123@"), "admin@example.com",
+                    "0123456789", 30, Gender.MALE);
+            users.add(admin);
+            save();
+            System.out.println("Tạo tài khoản Admin mặc định thành công!");
+        }
     }
 
     @Override
@@ -62,13 +74,6 @@ public class UserService implements IUserService {
                 .filter(u -> u.getUserName().equals(username))
                 .findFirst()
                 .orElse(null);
-    }
-
-    private boolean isUsernameTaken(String username) {
-        if (users == null || username == null) {
-            return false;
-        }
-        return users.stream().anyMatch(u -> u.getUserName().equalsIgnoreCase(username));
     }
 
     public boolean changePassword(String userId, String oldPassword, String newPassword) {
@@ -93,6 +98,5 @@ public class UserService implements IUserService {
 
     private void save() {
         storage.writeToFile(AppConfig.USER_FILE, users);
-        System.out.println("Lưu: " + users);
     }
 }

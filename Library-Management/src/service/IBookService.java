@@ -6,7 +6,7 @@ import java.util.List;
 public interface IBookService {
     void addBook(Book book);
     boolean removeBook(String id);
-    void updateBook(Book updatedBook);
+    void updateBook(String bookId, int updateChoice, String newValue);
     Book findById(String id);
     List<Book> searchByTitle(String title);
     List<Book> searchByAuthor(String author);

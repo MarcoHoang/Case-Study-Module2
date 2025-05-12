@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Book implements Serializable {
     private String id;
@@ -14,8 +15,6 @@ public class Book implements Serializable {
     private int totalCopies;
     private int availableCopies;
     private String description;
-
-    public Book() {}
 
     public Book(String id, String title, Author author, String publisher,
                 LocalDate publishDate, Category category, String language,
@@ -115,17 +114,25 @@ public class Book implements Serializable {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", publisher='" + publisher + '\'' +
-                ", publishDate=" + publishDate +
-                ", category='" + category + '\'' +
-                ", language='" + language + '\'' +
-                ", totalCopies=" + totalCopies +
-                ", availableCopies=" + availableCopies +
-                ", description='" + description + '\'' +
-                '}';
+        return String.format(
+                "\n" +
+                        "╔═════════════════════════════════════════════╗\n" +
+                        "║ ID              : %-25s ║\n" +
+                        "║ Title           : %-25s ║\n" +
+                        "║ Author          : %-25s ║\n" +
+                        "║ Nationality     : %-25s ║\n" +
+                        "║ Publisher       : %-25s ║\n" +
+                        "║ Publish Date    : %-25s ║\n" +
+                        "║ Category        : %-25s ║\n" +
+                        "║ Min Age         : %-25d ║\n" +
+                        "║ Language        : %-25s ║\n" +
+                        "║ Total Copies    : %-25d ║\n" +
+                        "║ Available Copies: %-25d ║\n" +
+                        "║ Description     : %-25s ║\n" +
+                        "╚═════════════════════════════════════════════╝\n",
+                id, title, author.getName(), author.getNationality(), publisher, publishDate,
+                category.getName(), category.getMinAge(), language, totalCopies, availableCopies, description
+        );
     }
+
 }

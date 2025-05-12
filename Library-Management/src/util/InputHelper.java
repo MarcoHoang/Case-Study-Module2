@@ -9,9 +9,8 @@ import java.util.regex.Pattern;
 
 public class InputHelper {
     private static final Scanner scanner = new Scanner(System.in);
-    private static final Pattern PHONE_PATTERN = Pattern.compile("^\\d{10,11}$");
-    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$");
-    // private static final Pattern DATE_PATTERN = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+    private static final Pattern PHONE_PATTERN = Pattern.compile("^0\\d{9,10}$");
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
 
     public static String inputString(String prompt) {
         System.out.print(prompt);
@@ -57,7 +56,8 @@ public class InputHelper {
         do {
             phone = inputNonEmptyString(prompt);
             if (!PHONE_PATTERN.matcher(phone).matches()) {
-                System.out.println("Lỗi: Số điện thoại không hợp lệ (phải là 10 hoặc 11 chữ số). Vui lòng nhập lại.");
+                System.out.println("Lỗi: Số điện thoại không hợp lệ (số bắt đầu bởi số 0 và có 10-11 số). Vui lòng " +
+                        "nhập lại.");
             }
         } while (!PHONE_PATTERN.matcher(phone).matches());
         return phone;
@@ -94,5 +94,19 @@ public class InputHelper {
                 System.out.println("Lỗi: Giới tính không hợp lệ. Vui lòng nhập NAM, NỮ hoặc KHÁC.");
             }
         }
+    }
+
+    public static String getValidatedPassword() {
+        String password;
+        while (true) {
+            password = inputNonEmptyString("Mật khẩu: ");
+            try {
+                PasswordUtil.validatePassword(password);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Lỗi: " + e.getMessage());
+            }
+        }
+        return password;
     }
 }

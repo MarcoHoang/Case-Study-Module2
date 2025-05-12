@@ -3,9 +3,8 @@ package view;
 import controller.*;
 import model.User;
 import service.RatingService;
-import service.UserService;
+import service.ReservationService;
 import util.InputHelper;
-import util.PasswordUtil;
 
 import java.util.Scanner;
 
@@ -18,11 +17,11 @@ public class UserMenuView {
     private final RatingController ratingController;
     private final UserController userController;
 
-    public UserMenuView(User user, service.ReservationService reservationService) {
+    public UserMenuView(User user) {
         this.currentUser = user;
-        this.ratingController = new RatingController(new RatingService(), currentUser);
+        this.ratingController = new RatingController(RatingService.getInstance(), currentUser);
         this.userController = new UserController();
-        this.reservationController = new ReservationController(reservationService, currentUser);
+        this.reservationController = new ReservationController(ReservationService.getInstance(), currentUser);
     }
 
     public void showMenu() {
@@ -36,7 +35,8 @@ public class UserMenuView {
             System.out.println("6. Đánh giá sách");
             System.out.println("7. Đặt trước sách");
             System.out.println("8. Đổi mật khẩu");
-            System.out.println("9. Đăng xuất");
+            System.out.println("9. Xem đánh giá");
+            System.out.println("10. Đăng xuất");
             System.out.print("Chọn: ");
             String choice = scanner.nextLine();
 
@@ -49,7 +49,8 @@ public class UserMenuView {
                 case "6" -> ratingController.addRating();
                 case "7" -> BookView.reserveBook(currentUser, bookController, reservationController);
                 case "8" -> changePassword();
-                case "9" -> {
+                case "9" -> ratingController.viewRatings();
+                case "10" -> {
                     System.out.println("Đăng xuất...");
                     return;
                 }

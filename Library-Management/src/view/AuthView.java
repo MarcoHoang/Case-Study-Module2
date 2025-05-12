@@ -4,7 +4,6 @@ import controller.LoginController;
 import controller.UserController;
 import model.User;
 import service.ILoginService;
-import service.IUserService;
 import service.LoginService;
 import service.UserService;
 
@@ -23,7 +22,7 @@ public class AuthView {
 
     public User loginMenu() {
         while (true) {
-            System.out.println("\n--- THƯ VIỆN SỐ ---");
+            System.out.println("\n--- THƯ VIỆN SÁCH ---");
             System.out.println("1. Đăng nhập");
             System.out.println("2. Đăng ký");
             System.out.println("0. Thoát");

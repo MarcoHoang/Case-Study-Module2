@@ -1,21 +1,44 @@
 package service;
 
+import config.AppConfig;
 import model.Reservation;
-import storage.ReservationStorage;
+import storage.GenericFileStorage;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReservationService implements IReservationService {
-    private final ReservationStorage storage = new ReservationStorage();
+    private static ReservationService instance;
+    private final GenericFileStorage<Reservation> storage;
+    private List<Reservation> reservations;
+
+    private ReservationService() {
+        this.storage = new GenericFileStorage<>();
+        this.reservations = storage.readFromFile(AppConfig.RESERVATION_FILE);
+        if (this.reservations == null) {
+            this.reservations = new ArrayList<>();
+        }
+    }
+
+    public static ReservationService getInstance() {
+        if (instance == null) {
+            synchronized (ReservationService.class) {
+                if (instance == null) {
+                    instance = new ReservationService();
+                }
+            }
+        }
+        return instance;
+    }
 
     @Override
     public void addReservation(Reservation reservation) {
-        List<Reservation> reservations = storage.readFromFile("reservations.dat");
         reservations.add(reservation);
-        storage.writeToFile("reservations.dat", reservations);
+        storage.writeToFile(AppConfig.RESERVATION_FILE, reservations);
     }
 
     @Override
     public List<Reservation> getAllReservations() {
-        return storage.readFromFile("reservations.dat");
+        return new ArrayList<>(reservations);
     }
 }

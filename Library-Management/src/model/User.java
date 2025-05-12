@@ -80,14 +80,19 @@ public abstract class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
-                ", username='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", age=" + age +
-                ", gender='" + gender + '\'' +
-                '}';
+        return String.format(
+                        "\n" +
+                        "╔══════════════════════════════════════╗\n" +
+                        "║ ID       : %-25s ║\n" +
+                        "║ Username : %-25s ║\n" +
+                        "║ Password : %-25s ║\n" +
+                        "║ Email    : %-25s ║\n" +
+                        "║ Phone    : %-25s ║\n" +
+                        "║ Age      : %-25d ║\n" +
+                        "║ Gender   : %-25s ║\n" +
+                        "╚══════════════════════════════════════╝\n",
+                id, userName, "********", email, phone, age, gender
+        );
     }
+
 }

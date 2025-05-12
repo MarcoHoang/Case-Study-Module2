@@ -4,11 +4,9 @@ import java.io.Serializable;
 
 public class Rating implements Serializable {
     private String bookId;
-    private String userId;
+    private final String userId;
     private int stars;
     private String comment;
-
-    public Rating() {}
 
     public Rating(String bookId, String userId, int stars, String comment) {
         this.bookId = bookId;
@@ -27,4 +25,19 @@ public class Rating implements Serializable {
 
     public String getComment() { return comment; }
     public void setComment(String comment) { this.comment = comment; }
+
+    @Override
+    public String toString() {
+        return String.format(
+                        "\n" +
+                        "╔══════════════════════════════════════╗\n" +
+                        "║ Book ID   : %-25s ║\n" +
+                        "║ User ID   : %-25s ║\n" +
+                        "║ Stars     : %-25d ║\n" +
+                        "║ Comment   : %-25s ║\n" +
+                        "╚══════════════════════════════════════╝\n",
+                bookId, userId, stars, comment == null || comment.isBlank() ? "Không có" : comment
+        );
+    }
+
 }
