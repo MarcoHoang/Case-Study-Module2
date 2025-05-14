@@ -13,14 +13,13 @@ public class BorrowRecord implements Serializable {
     private boolean returned;
 
     public BorrowRecord(String borrowId, String borrowerId, String bookId,
-                        LocalDate borrowDate, LocalDate dueDate, boolean returned) {
+                        LocalDate borrowDate, LocalDate dueDate) {
         this.borrowId = borrowId;
         this.borrowerId = borrowerId;
         this.bookId = bookId;
         this.borrowDate = borrowDate;
         this.dueDate = dueDate;
         this.returnDate = null;
-        this.returned = false;
     }
 
     public String getBorrowId() {
@@ -82,7 +81,7 @@ public class BorrowRecord implements Serializable {
     @Override
     public String toString() {
         return String.format(
-                        "\n" +
+                "\n" +
                         "╔══════════════════════════════════════╗\n" +
                         "║ Borrow ID : %-25s ║\n" +
                         "║ Borrower ID : %-25s ║\n" +

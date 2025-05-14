@@ -1,21 +1,22 @@
 package service;
 
-import model.Author;
-import model.Book;
-import model.Category;
+import model.*;
 import storage.BookStorage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class BookService implements IBookService {
     private final BookStorage storage = new BookStorage();
     private List<Book> books;
+    private final ReservationService reservationService;
+    private final BorrowService borrowService;
 
     public BookService() {
+        this.borrowService = BorrowService.getInstance();
+        this.reservationService = ReservationService.getInstance();
         books = storage.readFromFile(config.AppConfig.BOOK_FILE);
         if (books == null) books = new ArrayList<>();
     }
@@ -38,57 +39,108 @@ public class BookService implements IBookService {
         return removed;
     }
 
-    @Override
-    public void updateBook(String bookId, int updateChoice, String newValue) {
-        Scanner scanner = new Scanner(System.in);
+    public void updateBookTitle(String bookId, String title) {
         Book book = findById(bookId);
         if (book != null) {
-            switch (updateChoice) {
-                case 1:
-                    book.setTitle(newValue);
-                    break;
-                case 2:
-                    System.out.print("Nhập tên tác giả mới: ");
-                    System.out.print("Nhập quốc tịch tác giả mới: ");
-                    String authorNationality = scanner.nextLine();
-                    Author newAuthor = new Author(newValue, authorNationality);
-                    book.setAuthor(newAuthor);
-                    break;
-                case 3:
-                    System.out.print("Nhập tên thể loại mới: ");
-                    System.out.print("Nhập mô tả thể loại mới: ");
-                    String categoryDescription = scanner.nextLine();
-                    System.out.print("Nhập độ tuổi tối thiểu cho thể loại: ");
-                    int minAge = scanner.nextInt();
-                    Category newCategory = new Category(newValue, categoryDescription, minAge);
-                    book.setCategory(newCategory);
-                    break;
-                case 4:
-                    book.setLanguage(newValue);
-                    break;
-                case 5:
-                    try {
-                        System.out.print("Nhập ngày xuất bản (yyyy-MM-dd): ");
-                        LocalDate publishDate = LocalDate.parse(newValue);
-                        book.setPublishDate(publishDate);
-                    } catch (Exception e) {
-                        System.out.println("Lỗi: Định dạng ngày tháng không hợp lệ.");
-                    }
-                    break;
-                case 6:
-                    book.setDescription(newValue);
-                    break;
-                default:
-                    System.out.println("Lựa chọn không hợp lệ!");
-                    return;
-            }
+            book.setTitle(title);
             save();
-            System.out.println("Cập nhật sách thành công!");
-        } else {
-            System.out.println("Không tìm thấy sách với ID: " + bookId);
+            System.out.println("Cập nhật tiêu đề thành công!");
         }
     }
 
+    public void updateBookAuthor(String bookId, Author author) {
+        Book book = findById(bookId);
+        if (book != null) {
+            book.setAuthor(author);
+            save();
+            System.out.println("Cập nhật tác giả thành công!");
+        }
+    }
+
+    public void updateBookCategory(String bookId, Category category) {
+        Book book = findById(bookId);
+        if (book != null) {
+            book.setCategory(category);
+            save();
+            System.out.println("Cập nhật thể loại thành công!");
+        }
+    }
+
+    public void updateBookLanguage(String bookId, String language) {
+        Book book = findById(bookId);
+        if (book != null) {
+            book.setLanguage(language);
+            save();
+            System.out.println("Cập nhật ngôn ngữ thành công!");
+        }
+    }
+
+    public void updateBookPublishDate(String bookId, LocalDate publishDate) {
+        Book book = findById(bookId);
+        if (book != null) {
+            book.setPublishDate(publishDate);
+            save();
+            System.out.println("Cập nhật ngày xuất bản thành công!");
+        }
+    }
+
+    public void updateBookDescription(String bookId, String description) {
+        Book book = findById(bookId);
+        if (book != null) {
+            book.setDescription(description);
+            save();
+            System.out.println("Cập nhật mô tả thành công!");
+        }
+    }
+
+    public void updateBookTotalCopies(String bookId, int totalCopies) {
+        Book book = findById(bookId);
+        if (book != null) {
+            if (totalCopies < book.getAvailableCopies()) {
+                System.out.println("Lỗi: Tổng số lượng không được nhỏ hơn số sách còn lại.");
+                return;
+            }
+            book.setTotalCopies(totalCopies);
+            save();
+            System.out.println("Cập nhật tổng số lượng thành công!");
+        }
+    }
+
+    public void updateBookAvailableCopies(String bookId, int availableCopies) {
+        Book book = findById(bookId);
+        if (book != null) {
+            int oldAvailableCopies = book.getAvailableCopies();
+            if (availableCopies > book.getTotalCopies()) {
+                System.out.println("Lỗi: Sách còn lại không được vượt quá tổng số lượng.");
+                return;
+            }
+            book.setAvailableCopies(availableCopies);
+            save();
+
+            System.out.println("Cập nhật số lượng sách ID " + bookId + " thành " + availableCopies + ". Số lượng cũ: " + oldAvailableCopies);
+            if (oldAvailableCopies == 0 && availableCopies > 0) {
+                List<Reservation> pendingReservations = reservationService.getPendingReservationsForBook(bookId);
+
+                for (Reservation reservation : pendingReservations) {
+                    if (book.getAvailableCopies() > 0) {
+                        reservationService.updateReservationStatus(reservation.getBookId(), reservation.getBorrowerId(),
+                                ReservationStatus.COMPLETED);
+
+                        LocalDate borrowDate = LocalDate.now();
+                        LocalDate dueDate = borrowDate.plusDays(7);
+                        String borrowId = borrowService.generateBorrowId(reservation.getBorrowerId(),
+                                reservation.getBookId());
+                        BorrowRecord borrowRecord = new BorrowRecord(borrowId, reservation.getBookId(),
+                                reservation.getBorrowerId(), borrowDate, dueDate);
+                        borrowService.borrowBook(borrowRecord);
+
+                        updateBookCopies(bookId, -1);
+                        System.out.println("Đã tự động chuyển đặt trước sang mượn thành công!");
+                    }
+                }
+            }
+        }
+    }
     @Override
     public Book findById(String id) {
         return books.stream()
@@ -130,7 +182,26 @@ public class BookService implements IBookService {
         return new ArrayList<>(books);
     }
 
-    private void save() {
+    @Override
+    public void updateBookCopies(String bookId, int delta) {
+        Book book = findById(bookId);
+        if (book != null) {
+            int newAvailable = book.getAvailableCopies() + delta;
+
+            if (newAvailable < 0) {
+                System.out.println("Lỗi: Số lượng sách còn lại không đủ.");
+                return;
+            }
+
+            book.setAvailableCopies(newAvailable);
+            save();
+        } else {
+            System.out.println("Không tìm thấy sách với ID: " + bookId);
+        }
+    }
+
+    @Override
+    public void save() {
         storage.writeToFile(config.AppConfig.BOOK_FILE, books);
     }
 }

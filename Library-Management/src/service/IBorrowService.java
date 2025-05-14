@@ -9,6 +9,8 @@ public interface IBorrowService {
 
     boolean returnBook(String borrowId);
 
+    String generateBorrowId(String userId, String bookId);
+
     List<BorrowRecord> getAllBorrowRecords();
 
     List<BorrowRecord> getBorrowRecordsByUser(String userId);

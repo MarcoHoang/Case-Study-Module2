@@ -1,9 +1,6 @@
 package view;
 
-import controller.BookController;
-import controller.RatingController;
-import controller.ReservationController;
-import controller.UserController;
+import controller.*;
 import model.Borrower;
 import model.Librarian;
 import model.User;
@@ -16,6 +13,7 @@ public class LibrarianMenuView {
     private final Scanner scanner = new Scanner(System.in);
     private final BookController bookController = new BookController();
     private final UserController userController = new UserController();
+    private final BorrowController borrowController = new BorrowController();
     private final RatingController ratingController = new RatingController(RatingService.getInstance(), null);
     private final ReservationController reservationController = new ReservationController(ReservationService.getInstance(), null);
 
@@ -33,8 +31,9 @@ public class LibrarianMenuView {
             System.out.println("6. Xem danh sách người dùng");
             System.out.println("7. Xóa người dùng");
             System.out.println("8. Xem đánh giá");
-            System.out.println("9. Xem danh sách sách cho mượn");
-            System.out.println("10. Đăng xuất");
+            System.out.println("9. Xem danh sách sách đã nhận đặt trước");
+            System.out.println("10. Xem danh sách sách đã cho mượn");
+            System.out.println("0. Đăng xuất");
             System.out.print("Chọn: ");
             String choice = scanner.nextLine();
 
@@ -82,7 +81,8 @@ public class LibrarianMenuView {
                 }
                 case "8" -> ratingController.viewRatings();
                 case "9" -> reservationController.viewReservations();
-                case "10" -> {
+                case "10" -> BorrowView.viewBorrowedBooks(borrowController);
+                case "0" -> {
                     System.out.println("Đăng xuất...");
                     return;
                 }

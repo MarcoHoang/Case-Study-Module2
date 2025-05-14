@@ -22,12 +22,10 @@ public class AdminController {
 
     public void createLibrarianAccount(String id, String username, String password, String email, String phone, int age, String genderInput) {
         if (userService.findByUsername(username) != null && userService.getUserById(id) != null) {
-            System.out.println("Lỗi: Tên đăng nhập đã tồn tại. Vui lòng chọn tên khác.");
             return;
         }
         Librarian newLibrarian = new Librarian(id, username, password, email, phone, age, Gender.valueOf(genderInput.toUpperCase()));
         userService.register(newLibrarian);
-        System.out.println("Tạo tài khoản Thủ thư thành công!");
     }
 
     public boolean deleteLibrarianAccount(String userId) {

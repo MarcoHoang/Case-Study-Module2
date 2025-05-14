@@ -13,19 +13,34 @@ public class Category implements Serializable {
         this.minAge = minAge;
     }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getName() {
+        return name;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public int getMinAge() { return minAge; }
-    public void setMinAge(int minAge) { this.minAge = minAge; }
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getMinAge() {
+        return minAge;
+    }
+
+    public void setMinAge(int minAge) {
+        this.minAge = minAge;
+    }
 
     @Override
     public String toString() {
         return String.format(
-                        "\n" +
+                "\n" +
                         "╔════════════════════════════════════════════╗\n" +
                         "║ Category Name : %-25s ║\n" +
                         "║ Description   : %-25s ║\n" +

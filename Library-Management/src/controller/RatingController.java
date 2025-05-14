@@ -3,7 +3,7 @@ package controller;
 import model.Rating;
 import model.User;
 import service.RatingService;
-import java.util.Scanner;
+import util.InputHelper;
 
 public class RatingController {
     private final RatingService ratingService;
@@ -15,21 +15,18 @@ public class RatingController {
     }
 
     public void addRating() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Nhập ID sách: ");
-        String bookId = scanner.nextLine();
+        System.out.println("\n--- Thêm Đánh Giá Sách ---");
 
-        System.out.print("Nhập số sao (1-5): ");
-        int stars = Integer.parseInt(scanner.nextLine());
+        String bookId = InputHelper.inputNonEmptyString("Nhập ID sách: ");
 
-        System.out.print("Nhập nhận xét: ");
-        String comment = scanner.nextLine();
+        int stars = InputHelper.inputIntInRange("Nhập số sao (1-5): ", 1, 5);
+
+        String comment = InputHelper.inputString("Nhập nhận xét: ");
 
         Rating rating = new Rating(bookId, currentUser.getId(), stars, comment);
         ratingService.addRating(rating);
-        System.out.println("Đánh giá đã được thêm.");
+        System.out.println("Đánh giá đã được thêm thành công.");
     }
-
 
     public void viewRatings() {
         System.out.println("=== DANH SÁCH ĐÁNH GIÁ ===");

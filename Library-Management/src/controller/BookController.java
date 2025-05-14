@@ -1,9 +1,12 @@
 package controller;
 
+import model.Author;
 import model.Book;
+import model.Category;
 import service.BookService;
 import service.IBookService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class BookController {
@@ -41,7 +44,39 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
-    public void updateBook(String bookId, int updateChoice, String newValue) {
-        bookService.updateBook(bookId, updateChoice, newValue);
+    public void updateBookTitle(String bookId, String title) {
+        bookService.updateBookTitle(bookId, title);
+    }
+
+    public void updateBookAuthor(String bookId, Author author) {
+        bookService.updateBookAuthor(bookId, author);
+    }
+
+    public void updateBookCategory(String bookId, Category category) {
+        bookService.updateBookCategory(bookId, category);
+    }
+
+    public void updateBookLanguage(String bookId, String language) {
+        bookService.updateBookLanguage(bookId, language);
+    }
+
+    public void updateBookPublishDate(String bookId, LocalDate publishDate) {
+        bookService.updateBookPublishDate(bookId, publishDate);
+    }
+
+    public void updateBookDescription(String bookId, String description) {
+        bookService.updateBookDescription(bookId, description);
+    }
+
+    public void updateBookTotalCopies(String bookId, int totalCopies) {
+        bookService.updateBookTotalCopies(bookId, totalCopies);
+    }
+
+    public void updateBookAvailableCopies(String bookId, int availableCopies) {
+        bookService.updateBookAvailableCopies(bookId, availableCopies);
+    }
+
+    public void updateBookCopies(String bookId, int delta) {
+        bookService.updateBookCopies(bookId, delta);
     }
 }

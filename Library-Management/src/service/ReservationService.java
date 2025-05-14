@@ -2,10 +2,12 @@ package service;
 
 import config.AppConfig;
 import model.Reservation;
+import model.ReservationStatus;
 import storage.GenericFileStorage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReservationService implements IReservationService {
     private static ReservationService instance;
@@ -40,5 +42,22 @@ public class ReservationService implements IReservationService {
     @Override
     public List<Reservation> getAllReservations() {
         return new ArrayList<>(reservations);
+    }
+
+    public List<Reservation> getPendingReservationsForBook(String bookId) {
+        return reservations.stream()
+                .filter(r -> r.getBookId().equals(bookId) && r.getStatus() == ReservationStatus.PENDING)
+                .collect(Collectors.toList());
+    }
+
+    public void updateReservationStatus(String bookId, String userId, ReservationStatus newStatus) {
+        for (Reservation reservation : reservations) {
+            if (reservation.getBookId().equals(bookId) && reservation.getBorrowerId().equals(userId)) {
+                reservation.setStatus(newStatus);
+                storage.writeToFile(AppConfig.RESERVATION_FILE, reservations);
+                return;
+            }
+        }
+        System.out.println("Không tìm thấy đơn đặt trước cho sách ID: " + bookId + " và người dùng ID: " + userId);
     }
 }

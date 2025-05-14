@@ -36,21 +36,21 @@ public class UserMenuView {
             System.out.println("7. Đặt trước sách");
             System.out.println("8. Đổi mật khẩu");
             System.out.println("9. Xem đánh giá");
-            System.out.println("10. Đăng xuất");
+            System.out.println("0. Đăng xuất");
             System.out.print("Chọn: ");
             String choice = scanner.nextLine();
 
             switch (choice) {
                 case "1" -> bookController.getAllBooks().forEach(System.out::println);
-                case "2" -> BookView.borrowBook(currentUser, borrowController);
-                case "3" -> BookView.returnBook(borrowController);
+                case "2" -> BookView.borrowBook(currentUser, borrowController, bookController);
+                case "3" -> BookView.returnBook(borrowController, bookController);
                 case "4" -> BookView.searchBooks(bookController);
                 case "5" -> BookView.showMyBorrowedBooks(currentUser, borrowController);
                 case "6" -> ratingController.addRating();
-                case "7" -> BookView.reserveBook(currentUser, bookController, reservationController);
+                case "7" -> BookView.reserveBook(bookController, reservationController);
                 case "8" -> changePassword();
                 case "9" -> ratingController.viewRatings();
-                case "10" -> {
+                case "0" -> {
                     System.out.println("Đăng xuất...");
                     return;
                 }
