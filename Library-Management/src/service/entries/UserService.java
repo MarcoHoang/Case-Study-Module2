@@ -1,8 +1,9 @@
-package service;
+package service.entries;
 
 import model.Admin;
 import model.Gender;
 import model.User;
+import service.interfaces.IUserService;
 import storage.GenericFileStorage;
 import config.AppConfig;
 import util.PasswordUtil;

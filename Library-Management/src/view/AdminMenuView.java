@@ -6,8 +6,8 @@ import controller.BorrowController;
 import controller.RatingController;
 import controller.ReservationController;
 import model.User;
-import service.RatingService;
-import service.ReservationService;
+import service.entries.RatingService;
+import service.entries.ReservationService;
 import util.AccountHelper;
 import util.InputHelper;
 

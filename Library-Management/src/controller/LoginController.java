@@ -1,7 +1,7 @@
 package controller;
 
 import model.*;
-import service.ILoginService;
+import service.interfaces.ILoginService;
 import util.AccountHelper;
 import util.InputHelper;
 

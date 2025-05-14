@@ -1,8 +1,8 @@
 package controller;
 
 import model.User;
-import service.IUserService;
-import service.UserService;
+import service.interfaces.IUserService;
+import service.entries.UserService;
 import util.PasswordUtil;
 
 import java.util.List;

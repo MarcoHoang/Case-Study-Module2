@@ -4,8 +4,8 @@ import controller.*;
 import model.Borrower;
 import model.Librarian;
 import model.User;
-import service.RatingService;
-import service.ReservationService;
+import service.entries.RatingService;
+import service.entries.ReservationService;
 
 import java.util.Scanner;
 

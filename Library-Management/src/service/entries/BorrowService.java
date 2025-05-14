@@ -1,7 +1,8 @@
-package service;
+package service.entries;
 
 import config.AppConfig;
 import model.BorrowRecord;
+import service.interfaces.IBorrowService;
 import storage.GenericFileStorage;
 
 import java.util.ArrayList;

@@ -3,8 +3,8 @@ package controller;
 import model.Author;
 import model.Book;
 import model.Category;
-import service.BookService;
-import service.IBookService;
+import service.entries.BookService;
+import service.interfaces.IBookService;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,8 +1,8 @@
 package controller;
 
 import model.BorrowRecord;
-import service.BorrowService;
-import service.IBorrowService;
+import service.entries.BorrowService;
+import service.interfaces.IBorrowService;
 
 import java.util.List;
 

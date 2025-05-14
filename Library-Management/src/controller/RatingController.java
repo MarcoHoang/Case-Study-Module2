@@ -2,7 +2,7 @@ package controller;
 
 import model.Rating;
 import model.User;
-import service.RatingService;
+import service.entries.RatingService;
 import util.InputHelper;
 
 public class RatingController {

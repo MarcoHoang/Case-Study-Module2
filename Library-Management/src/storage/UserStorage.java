@@ -1,9 +1,7 @@
 package storage;
 
 import model.User;
-import model.Librarian;
-import model.Borrower;
-import service.IDataStorage;
+import service.interfaces.IDataStorage;
 
 import java.io.*;
 import java.util.ArrayList;

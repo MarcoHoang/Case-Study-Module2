@@ -1,7 +1,9 @@
-package service;
+package service.entries;
 
 import model.User;
 import model.Librarian;
+import service.interfaces.ILoginService;
+import service.interfaces.IUserService;
 import util.PasswordUtil;
 
 public class LoginService implements ILoginService {

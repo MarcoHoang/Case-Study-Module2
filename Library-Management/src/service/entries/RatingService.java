@@ -1,7 +1,8 @@
-package service;
+package service.entries;
 
 import config.AppConfig;
 import model.Rating;
+import service.interfaces.IRatingService;
 import storage.GenericFileStorage;
 
 import java.util.ArrayList;

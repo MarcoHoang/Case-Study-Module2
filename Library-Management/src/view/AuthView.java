@@ -3,9 +3,9 @@ package view;
 import controller.LoginController;
 import controller.UserController;
 import model.User;
-import service.ILoginService;
-import service.LoginService;
-import service.UserService;
+import service.interfaces.ILoginService;
+import service.entries.LoginService;
+import service.entries.UserService;
 
 import java.util.Scanner;
 

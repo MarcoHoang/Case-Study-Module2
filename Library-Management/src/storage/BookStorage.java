@@ -1,7 +1,7 @@
 package storage;
 
 import model.Book;
-import service.IDataStorage;
+import service.interfaces.IDataStorage;
 
 import java.io.*;
 import java.util.ArrayList;

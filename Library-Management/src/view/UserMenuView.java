@@ -2,8 +2,8 @@ package view;
 
 import controller.*;
 import model.User;
-import service.RatingService;
-import service.ReservationService;
+import service.entries.RatingService;
+import service.entries.ReservationService;
 import util.InputHelper;
 
 import java.util.Scanner;

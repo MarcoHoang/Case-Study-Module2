@@ -1,6 +1,7 @@
-package service;
+package service.entries;
 
 import model.*;
+import service.interfaces.IBookService;
 import storage.BookStorage;
 
 import java.time.LocalDate;

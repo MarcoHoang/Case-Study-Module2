@@ -2,7 +2,7 @@ package controller;
 
 import model.Reservation;
 import model.User;
-import service.ReservationService;
+import service.entries.ReservationService;
 
 import java.time.LocalDate;
 

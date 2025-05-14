@@ -1,8 +1,9 @@
-package service;
+package service.entries;
 
 import config.AppConfig;
 import model.Reservation;
 import model.ReservationStatus;
+import service.interfaces.IReservationService;
 import storage.GenericFileStorage;
 
 import java.util.ArrayList;

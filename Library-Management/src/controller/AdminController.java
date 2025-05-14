@@ -4,8 +4,8 @@ import model.Borrower;
 import model.Gender;
 import model.Librarian;
 import model.User;
-import service.IUserService;
-import service.UserService;
+import service.interfaces.IUserService;
+import service.entries.UserService;
 
 import java.util.List;
 
